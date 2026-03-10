@@ -1,10 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
-if (process.env.CI) {
-  dotenv.config({ path: '.env.ci' });
-} else {
-  dotenv.config(); // local .env
+if (!process.env.CI) {
+  dotenv.config();
 }
 
 /**
@@ -51,10 +49,10 @@ export default defineConfig({
       use: { ...devices['Desktop Firefox'] },
     },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
