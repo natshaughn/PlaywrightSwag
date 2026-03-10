@@ -1,7 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
-dotenv.config();
+if (process.env.CI) {
+  dotenv.config({ path: '.env.ci' });
+} else {
+  dotenv.config(); // local .env
+}
 
 /**
  * Read environment variables from file.

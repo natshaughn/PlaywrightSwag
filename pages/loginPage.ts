@@ -16,11 +16,9 @@ export class LoginPage {
     }
 
     async goto() {
-        const baseUrl = process.env.BASE_URL;
-        if (!baseUrl) throw new Error('BASE_URL is not defined in env or config');
-        await this.page.goto(`${baseUrl}/`);
-        await this.waitForPage();
-}
+    await this.page.goto('/'); 
+    await this.waitForPage();
+    }
 
     async waitForPage() {
         await expect(this.page.getByText('Swag Labs')).toBeVisible();
