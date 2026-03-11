@@ -4,7 +4,7 @@ import { generateCustomer } from '../testData/customerData';
 
 const customer = generateCustomer();
 
-test('Happy Path e2e', async ({ loginPage, inventoryPage, cartPage, headerBar, checkoutStepOnePage, checkoutStepTwoPage, checkoutCompletePage }) => {
+    test('Happy Path e2e', async ({ loginPage, inventoryPage, cartPage, headerBar, checkoutStepOnePage, checkoutStepTwoPage, checkoutCompletePage }) => {
 
         await loginPage.goto(); 
         await loginPage.login(users.standard.username, users.standard.password);
@@ -19,7 +19,7 @@ test('Happy Path e2e', async ({ loginPage, inventoryPage, cartPage, headerBar, c
         await cartPage.waitForCartPage();
         await cartPage.assertNumberOfItemsInCart(1);
         await cartPage.assertProductVisible('Sauce Labs Onesie');
-        await cartPage.ClickCheckoutButton();
+        await cartPage.clickCheckoutButton();
 
         await checkoutStepOnePage.waitForCheckoutStepOnePage();
         await checkoutStepOnePage.enterCustomerDetails(customer.firstName, customer.lastName, customer.postcode);
@@ -30,34 +30,32 @@ test('Happy Path e2e', async ({ loginPage, inventoryPage, cartPage, headerBar, c
         await checkoutStepTwoPage.assertProductVisible('Sauce Labs Onesie');
         await checkoutStepTwoPage.assertPaymentInformation();
         await checkoutStepTwoPage.assertShippingInformation();
-        await checkoutStepTwoPage.assertTotalPrice('$8.63');
+        await checkoutStepTwoPage.assertTotalPrice(8.63);
         await checkoutStepTwoPage.clickFinishButton();
 
         await checkoutCompletePage.waitForCheckoutCompletePage();
         await checkoutCompletePage.assertCompleteHeader('Thank you for your order!');
         await checkoutCompletePage.assertOrderConfirmationText('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
-}); 
+    }); 
 
 
-test('Add one item to shopping Cart', async ({ loginPage, inventoryPage, headerBar })  => {
-    
+    test('Add one item to shopping Cart', async ({ loginPage, inventoryPage, headerBar })  => {
+        
         await loginPage.goto(); 
         await loginPage.login(users.standard.username, users.standard.password);
-        
+            
         await inventoryPage.waitForInventoryPage(); 
         await inventoryPage.assertInventoryHeaderText('Products'); 
         await inventoryPage.addProductToCart('Sauce Labs Backpack');
 
-        await headerBar.assertCartBadgeCount(1);
-        
-        
-});
+        await headerBar.assertCartBadgeCount(1);        
+    });
 
-test('Add multiple items to shopping Cart', async ({ loginPage, inventoryPage, headerBar })  => {
-    
+    test('Add multiple items to shopping Cart', async ({ loginPage, inventoryPage, headerBar })  => {
+        
         await loginPage.goto(); 
         await loginPage.login(users.standard.username, users.standard.password);
-        
+            
         await inventoryPage.waitForInventoryPage(); 
         await inventoryPage.assertInventoryHeaderText('Products'); 
 
@@ -72,8 +70,5 @@ test('Add multiple items to shopping Cart', async ({ loginPage, inventoryPage, h
         await inventoryPage.addProductToCart('Sauce Labs Onesie');
         await headerBar.assertCartBadgeCount(5);
         await inventoryPage.addProductToCart('Test.allTheThings() T-Shirt (Red)');
-        await headerBar.assertCartBadgeCount(6);
-        
-});
-
-
+        await headerBar.assertCartBadgeCount(6);   
+    });

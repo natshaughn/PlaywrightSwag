@@ -3,14 +3,14 @@ import { assert } from 'node:console';
 
 export class CheckoutCompletePage { 
     readonly page: Page;
-    readonly header: Locator;
     readonly completeHeader: Locator;
+    readonly header: Locator;
     readonly orderConfirmation: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.header = page.getByText('Checkout: Complete!');
         this.completeHeader = page.locator('[data-test="complete-header"]');
+        this.header = page.getByText('Checkout: Complete!');
         this.orderConfirmation = page.getByText('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
     }
 
@@ -29,6 +29,6 @@ export class CheckoutCompletePage {
     }
 
     async waitForCheckoutCompletePage() {
-        await expect(this.header).toBeVisible();
+        await expect(this.header).toBeVisible({ timeout: 5000 });
     }
 }

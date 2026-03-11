@@ -11,11 +11,11 @@ export class HeaderBar {
     this.cartButton = page.locator('[data-test="shopping-cart-link"]');
   }
 
-  async clickCart() {
-    await this.cartButton.click();
-  }
-
   async assertCartBadgeCount(count: number) {
     await expect(this.cartBadge).toHaveText(count.toString());
+  }
+  
+  async clickCart() {
+    await this.cartButton.click();
   }
 }

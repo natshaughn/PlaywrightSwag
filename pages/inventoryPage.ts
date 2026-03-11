@@ -11,19 +11,15 @@ export class InventoryPage {
 
     async addProductToCart(productName: string) {
     const productSlug = productName.toLowerCase().replace(/\s+/g, '-');
+    await this.page.locator(`[data-test="add-to-cart-${productSlug}"]`).isVisible({ timeout: 5000 });
     await this.page.locator(`[data-test="add-to-cart-${productSlug}"]`).click();
     }
-
 
     async assertInventoryHeaderText(expectedText: string) {
         await expect(this.header).toHaveText(expectedText);
     }
 
-
     async waitForInventoryPage() {
-        await expect(this.header).toBeVisible();
+        await expect(this.header).toBeVisible({ timeout: 5000 });
     }
-
-
-
 }
