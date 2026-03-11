@@ -15,16 +15,13 @@ export class LoginPage {
         this.errorMessage = page.locator('[data-test="error"]');
     }
 
-    async goto() {
-    await this.page.goto('/'); 
-    await this.waitForPage();
+    async assertLoginErrorText(expectedText: string) {
+        await expect(this.errorMessage).toHaveText(expectedText);
     }
 
-    async waitForPage() {
-        await expect(this.page.getByText('Swag Labs')).toBeVisible();
-        await expect(this.usernameInput).toBeVisible();
-        await expect(this.passwordInput).toBeVisible();
-        await expect(this.loginButton).toBeVisible();
+    async goto() {
+        await this.page.goto('/'); 
+        await this.waitForLoginPage();
     }
 
     async login(username: string, password: string) {
@@ -32,4 +29,15 @@ export class LoginPage {
         await this.passwordInput.fill(password);
         await this.loginButton.click();
     }
+
+    async waitForLoginPage() {
+        await expect(this.page.getByText('Swag Labs')).toBeVisible();
+        await expect(this.usernameInput).toBeVisible();
+        await expect(this.passwordInput).toBeVisible();
+        await expect(this.loginButton).toBeVisible();
+    }
+
+
+
+    
 }

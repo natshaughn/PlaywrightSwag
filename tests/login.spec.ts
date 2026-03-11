@@ -6,6 +6,15 @@ test('login test', async ({ loginPage, inventoryPage }) => {
   await loginPage.goto(); 
   await loginPage.login(users.standard.username, users.standard.password);
 
-  await inventoryPage.waitForPage(); 
-  await inventoryPage.assertHeaderText('Products'); 
+  await inventoryPage.waitForInventoryPage(); 
+  await inventoryPage.assertInventoryHeaderText('Products'); 
+});
+
+test('login error message test', async ({ loginPage }) => {
+
+  await loginPage.goto(); 
+  await loginPage.login(users.locked.username, users.locked.password);
+
+  await loginPage.assertLoginErrorText('Epic sadface: Sorry, this user has been locked out.');
+
 });
