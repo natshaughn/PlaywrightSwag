@@ -2,19 +2,19 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export class CheckoutStepOnePage { 
     readonly page: Page;
-    readonly header: Locator;
+    readonly continueButton: Locator;
     readonly firstNameInput: Locator;
+    readonly header: Locator;
     readonly lastNameInput: Locator;
     readonly postCodeInput: Locator;
-    readonly continueButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.header = page.getByText('Checkout: Your Information');
-        this.firstNameInput = page.locator('[data-test="firstName"]');
-        this.lastNameInput = page.locator('[data-test="lastName"]');
-        this.postCodeInput = page.locator('[data-test="postalCode"]');
         this.continueButton = page.locator('[data-test="continue"]');
+        this.firstNameInput = page.locator('[data-test="firstName"]');
+        this.header = page.getByText('Checkout: Your Information');
+        this.lastNameInput = page.locator('[data-test="lastName"]');
+        this.postCodeInput = page.locator('[data-test="postalCode"]');      
     }
 
     async clickContinue() {
@@ -28,10 +28,9 @@ export class CheckoutStepOnePage {
     }
 
     async waitForCheckoutStepOnePage() {
-        await expect(this.header).toBeVisible();
-        await expect(this.firstNameInput).toBeVisible();
-        await expect(this.lastNameInput).toBeVisible();
-        await expect(this.postCodeInput).toBeVisible();
+        await expect(this.header).toBeVisible({ timeout: 5000 });
+        await expect(this.firstNameInput).toBeVisible({ timeout: 5000 });
+        await expect(this.lastNameInput).toBeVisible({ timeout: 5000 });
+        await expect(this.postCodeInput).toBeVisible({ timeout: 5000 });
     }
-
 }

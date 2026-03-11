@@ -2,25 +2,25 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export class CheckoutStepTwoPage { 
     readonly page: Page;
-    readonly header: Locator;
     readonly cartItems: Locator;
+    readonly finishButton: Locator;
+    readonly header: Locator;
+    readonly itemTotal: Locator;
     readonly paymentInfo: Locator;
     readonly shippingInfo: Locator;
-    readonly itemTotal: Locator;
     readonly tax: Locator;
     readonly total: Locator;
-    readonly finishButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.header = page.getByText('Checkout: Overview');
         this.cartItems = page.locator('[data-test="inventory-item"]');
+        this.finishButton = page.locator('[data-test="finish"]');
+        this.header = page.getByText('Checkout: Overview');
+        this.itemTotal = page.locator('[data-test="subtotal-label"]');
         this.paymentInfo = page.locator('[data-test="payment-info-value"]');
         this.shippingInfo = page.locator('[data-test="shipping-info-value"]');
-        this.itemTotal = page.locator('[data-test="subtotal-label"]');
         this.tax = page.locator('[data-test="tax-label"]');
-        this.total = page.locator('[data-test="total-label"]');
-        this.finishButton = page.locator('[data-test="finish"]');
+        this.total = page.locator('[data-test="total-label"]');   
     }
 
     async assertNumberOfItems(expectedCount: number) {
@@ -39,8 +39,10 @@ export class CheckoutStepTwoPage {
         await expect(this.shippingInfo).toBeVisible();
     }
 
-    async assertTotalPrice(expectedTotal: string) {
-        await expect(this.total).toContainText(expectedTotal);
+    async assertTotalPrice(expectedTotal: number) {
+        const totalText = await this.total.textContent();
+        const totalValue = parseFloat(totalText!.replace(/[^0-9.]/g, ''));
+        expect(totalValue).toBeCloseTo(expectedTotal, 2);
     }
 
     async clickFinishButton() {
@@ -48,7 +50,6 @@ export class CheckoutStepTwoPage {
     }
 
     async waitForCheckoutStepTwoPage() {
-        await expect(this.header).toBeVisible();
+        await expect(this.header).toBeVisible({ timeout: 5000 });
     }
-
 }
