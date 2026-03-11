@@ -9,11 +9,21 @@ export class InventoryPage {
         this.header = page.getByText('Products');
     }
 
-    async waitForPage() {
+    async addProductToCart(productName: string) {
+    const productSlug = productName.toLowerCase().replace(/\s+/g, '-');
+    await this.page.locator(`[data-test="add-to-cart-${productSlug}"]`).click();
+    }
+
+
+    async assertInventoryHeaderText(expectedText: string) {
+        await expect(this.header).toHaveText(expectedText);
+    }
+
+
+    async waitForInventoryPage() {
         await expect(this.header).toBeVisible();
     }
 
-    async assertHeaderText(expectedText: string) {
-        await expect(this.header).toHaveText(expectedText);
-    }
+
+
 }
